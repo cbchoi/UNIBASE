@@ -1,7 +1,8 @@
 import dearpygui.dearpygui as dpg
 
 class LinkManager:
-	def __init__(self):
+	def __init__(self, parent):
+		self.parent_window = parent
 		self.links = []
 		pass
 
@@ -10,10 +11,11 @@ class LinkManager:
 
 		for lk in data["links"]:
 			dpg.add_node_link(lk["src"], lk["dst"], parent=lk["parent"], tag=lk["tag"])
+			self.links.append(lk["tag"])
 
 	def on_save(self):
 		data = []
-		for link in dpg.get_item_children("editor", 0): 
+		for link in dpg.get_item_children(self.parent_window, 0): 
 			a, b = dpg.get_item_configuration(link)["attr_1"], dpg.get_item_configuration(link)["attr_2"]
 			data.append({"src": dpg.get_item_alias(a), "dst": dpg.get_item_alias(b), 
 						 "parent":dpg.get_item_alias(dpg.get_item_parent(link)), 
@@ -28,7 +30,7 @@ class LinkManager:
 	def link_callback(self, sender, app_data):
 		out_attr, in_attr = app_data
 		link_tag = f"link_{len(self.links)+1}"
-		dpg.add_node_link(out_attr, in_attr, parent="editor", tag=link_tag)
+		dpg.add_node_link(dpg.get_item_alias(out_attr), dpg.get_item_alias(in_attr), parent=sender, tag=link_tag)
 		self.links.append(link_tag)
 
 	def delink_callback(self, sender, app_data):
