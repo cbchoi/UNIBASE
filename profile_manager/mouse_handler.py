@@ -2,7 +2,8 @@ import dearpygui.dearpygui as dpg
 from tiny_signal import TinySignal
 
 class MouseHandler():
-	def __init__(self):
+	def __init__(self, parent):
+		self.parent_window = parent
 		self.link_signal = TinySignal()
 		self.node_signal = TinySignal()
 

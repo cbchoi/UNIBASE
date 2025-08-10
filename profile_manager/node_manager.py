@@ -1,14 +1,15 @@
 import dearpygui.dearpygui as dpg
 
 class NodeManager:
-	def __init__(self):
+	def __init__(self, parent):
+		self.parent_window = parent
 		self.node_idx = 0
 		self.node_tags = {}
 
 	def on_restore(self, data):
 		self.node_idx = 0
 		self.node_tags = {}
-		# 노드 복원
+
 		for nd in data["nodes"]:
 			if nd["label"] == "Head":
 				self.add_node(label=nd["label"], pos=tuple(nd["pos"]), tag=nd["tag"], is_head = True)
@@ -18,7 +19,7 @@ class NodeManager:
 
 	def on_save(self):
 		data = []
-		for node in dpg.get_item_children("editor", 1):  # slot=1은 노드들
+		for node in dpg.get_item_children(self.parent_window, 1):  
 			pos = dpg.get_item_pos(node)
 			label = dpg.get_item_label(node)
 			field_data = []
@@ -42,7 +43,7 @@ class NodeManager:
 			if sn in self.node_tags:
 				self.node_tags.remove(sl)
 
-	def on_add_node(self):
+	def on_add_node(self, sender, app_data):
 		mx, my = dpg.get_mouse_pos()
 		self.add_node(label=f"Field {self.node_idx}", pos=(int(mx), int(my)))
 	
@@ -56,7 +57,7 @@ class NodeManager:
 			node_tag = tag
 
 		self.node_tags[node_tag] = {}
-		with dpg.node(label=label, tag=node_tag, parent="editor", pos=pos):
+		with dpg.node(label=label, tag=node_tag, parent=self.parent_window, pos=pos):
 			if not is_head:
 				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Input, tag=f"{node_tag}in"):
 					 dpg.add_text("In")

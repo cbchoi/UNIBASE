@@ -9,10 +9,11 @@ class Configuration():
 		self.title  = "Example"
 		self.width  = 1000
 		self.height = 900
-		self.link_manager = LinkManager()
-		self.node_manager = NodeManager()
-		self.mouse_handler = MouseHandler()
-		self.file_manager = FileManager()
+		self.parent_window = "editor"
+		self.link_manager = LinkManager(self.parent_window)
+		self.node_manager = NodeManager(self.parent_window)
+		self.mouse_handler = MouseHandler(self.parent_window)
+		self.file_manager = FileManager(self.parent_window)
 
 config = Configuration()
 
