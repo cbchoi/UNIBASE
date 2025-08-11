@@ -1,4 +1,5 @@
 import dearpygui.dearpygui as dpg
+import uuid
 
 class LinkManager:
 	def __init__(self, parent):
@@ -29,7 +30,7 @@ class LinkManager:
 
 	def link_callback(self, sender, app_data):
 		out_attr, in_attr = app_data
-		link_tag = f"link_{len(self.links)+1}"
+		link_tag = f"link_{uuid.uuid4()}"
 		dpg.add_node_link(dpg.get_item_alias(out_attr), dpg.get_item_alias(in_attr), parent=sender, tag=link_tag)
 		self.links.append(link_tag)
 

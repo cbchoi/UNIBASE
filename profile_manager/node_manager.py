@@ -78,7 +78,7 @@ class NodeManager:
 					#dpg.add_text("In")
 
 				#with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Static):
-					dpg.add_text(":Field Name")
+					dpg.add_text("Field Name")
 					field_name_tag = dpg.add_input_text(before="Field Name:", width=150, user_data="Field Name", tag=f"{node_tag}FieldName")
 					dpg.set_value(field_name_tag, name)
 					self.node_tags[node_tag][field_name_tag] = name
