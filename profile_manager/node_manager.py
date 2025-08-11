@@ -1,5 +1,11 @@
 import dearpygui.dearpygui as dpg
 
+def prompt_native_input(title, initial=""):
+    root = tk.Tk(); root.withdraw()
+    text = simpledialog.askstring(title, "텍스트를 입력하세요:", initialvalue=initial)
+    root.destroy()
+    return text
+
 class NodeManager:
 	def __init__(self, parent):
 		self.parent_window = parent
@@ -47,7 +53,7 @@ class NodeManager:
 		mx, my = dpg.get_mouse_pos()
 		self.add_node(label=f"Field {self.node_idx}", pos=(int(mx), int(my)))
 	
-	def add_node(self, label, pos, name="", type="TEXT", value="", tag="", is_head=False):
+	def add_node(self, label, pos, name="필드", type="TEXT", value="", tag="", is_head=False):
 		self.node_idx += 1
 
 		if not tag:
@@ -56,15 +62,24 @@ class NodeManager:
 		else:
 			node_tag = tag
 
+		with dpg.font_registry():
+			with dpg.font(r"C:\Windows\Fonts\malgun.ttf", 20) as font1:
+				# add the default font range
+				dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
+				dpg.add_font_range_hint(dpg.mvFontRangeHint_Korean)
+		
+			dpg.bind_font(font1)
+		
+
 		self.node_tags[node_tag] = {}
 		with dpg.node(label=label, tag=node_tag, parent=self.parent_window, pos=pos):
 			if not is_head:
 				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Input, tag=f"{node_tag}in"):
-					 dpg.add_text("In")
+					#dpg.add_text("In")
 
-				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Static):
-					dpg.add_text("Field Name:")
-					field_name_tag = dpg.add_input_text(label="", width=150, user_data="Field Name", tag=f"{node_tag}FieldName")
+				#with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Static):
+					dpg.add_text(":Field Name")
+					field_name_tag = dpg.add_input_text(before="Field Name:", width=150, user_data="Field Name", tag=f"{node_tag}FieldName")
 					dpg.set_value(field_name_tag, name)
 					self.node_tags[node_tag][field_name_tag] = name
 

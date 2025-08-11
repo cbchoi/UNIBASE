@@ -7,7 +7,7 @@ from file_manager import FileManager
 class Configuration():
 	def __init__(self):
 		self.title  = "Example"
-		self.width  = 1000
+		self.width  = 1600
 		self.height = 900
 		self.parent_window = "editor"
 		self.link_manager = LinkManager(self.parent_window)

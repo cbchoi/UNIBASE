@@ -10,14 +10,15 @@ class BlockManager():
 
 	def __init__(self, config):
 		dpg.create_context()
-
+		
 		with dpg.font_registry():
-			default_font = dpg.add_font(r"C:\Windows\Fonts\malgun.ttf", 13)
-			with dpg.font(r"C:\Windows\Fonts\NotoSerifKR-VF.ttf", 20) as font1:
-    	    	# add the default font range
+			with dpg.font(r"C:\Windows\Fonts\malgun.ttf", 20) as font1:
+				# add the default font range
 				dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
 				dpg.add_font_range_hint(dpg.mvFontRangeHint_Korean)
 		
+			dpg.bind_font(font1)
+
 		self.node_manager = config.node_manager
 		self.link_manager = config.link_manager
 		self.mouse_handler = config.mouse_handler
@@ -32,8 +33,7 @@ class BlockManager():
 		self.file_manager.bind_restore_signal(self.node_manager.on_restore, "node")
 		self.file_manager.bind_restore_signal(self.link_manager.on_restore, "link")
 
-		with dpg.window(label="Node Editor", width=900, height=600, no_scrollbar=False):
-			dpg.bind_font(default_font)
+		with dpg.window(label="Node Editor", width=900, height=600, no_scrollbar=False):		
 			with dpg.menu_bar():
 				self.file_manager.attach_menu()
 				dpg.add_button(label="Add Node (+)", callback=self.node_manager.on_add_node)
@@ -48,7 +48,7 @@ class BlockManager():
 
 		with dpg.handler_registry():
 			dpg.add_mouse_down_handler(callback=self.mouse_handler.get_mouse_down_handler())
-		
+	
 		dpg.create_viewport(title=config.title, width=config.width, height=config.height)
 
 
