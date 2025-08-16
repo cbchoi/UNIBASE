@@ -1,5 +1,6 @@
 import dearpygui.dearpygui as dpg
 
+
 class BlockManager():
 	def __enter__(self):
 		return self

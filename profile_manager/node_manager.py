@@ -1,10 +1,6 @@
 import dearpygui.dearpygui as dpg
 
-def prompt_native_input(title, initial=""):
-    root = tk.Tk(); root.withdraw()
-    text = simpledialog.askstring(title, "텍스트를 입력하세요:", initialvalue=initial)
-    root.destroy()
-    return text
+from alter_controls import add_input_text
 
 class NodeManager:
 	def __init__(self, parent):
@@ -90,12 +86,13 @@ class NodeManager:
 					dpg.set_value(field_type_tag, type)
 					self.node_tags[node_tag][field_type_tag] = type
 
-				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Static):
-					dpg.add_text("Value:")
-					field_value_tag = dpg.add_input_text(label="", width=150, user_data="Field Name", tag=f"{node_tag}FieldValue")
-					dpg.set_value(field_value_tag, value)
+				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output, tag=f"{node_tag}out"):
+					#dpg.add_text("Value:")
+					#field_value_tag = dpg.add_input_text(label="", width=150, user_data="Field Name", tag=f"{node_tag}FieldValue")
+					field_value_tag = add_input_text(label="Value", contents=value, width=150)
+					#dpg.set_value(field_value_tag, value)
 					self.node_tags[node_tag][field_value_tag] = value
-
-			with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output, tag=f"{node_tag}out"):
-				 dpg.add_text("Out")
+			else:
+				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output, tag=f"{node_tag}out"):
+					 dpg.add_text("Start")
 		return node_tag
