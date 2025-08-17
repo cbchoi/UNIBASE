@@ -39,9 +39,10 @@ class BlockManager():
 				self.file_manager.attach_menu()
 				dpg.add_button(label="Add Node (+)", callback=self.node_manager.on_add_node)
 			
-			with dpg.child_window(tag="work_area", width=-1, height=500, border=False):
+			with dpg.child_window(tag="work_area", width=-1, height=600, border=False):
 				with dpg.node_editor(tag="editor", callback=self.link_manager.link_callback, delink_callback=self.link_manager.delink_callback):
 					self.head_node = self.node_manager.add_node("Head", pos=(40, 100), is_head=True)
+
 			with dpg.child_window(height=40, autosize_x=True, no_scrollbar=True, border=True):
 				with dpg.group(horizontal=True):
 					dpg.add_text("Current File:")
@@ -54,7 +55,7 @@ class BlockManager():
 
 
 	def run(self):
-		dpg.show_font_manager()
+		#dpg.show_font_manager()
 		dpg.setup_dearpygui()
 		dpg.show_viewport()
 		dpg.start_dearpygui()

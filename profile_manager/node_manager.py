@@ -1,15 +1,13 @@
 import dearpygui.dearpygui as dpg
-
+import uuid
 from alter_controls import add_input_text
 
 class NodeManager:
 	def __init__(self, parent):
 		self.parent_window = parent
-		self.node_idx = 0
 		self.node_tags = {}
 
 	def on_restore(self, data):
-		self.node_idx = 0
 		self.node_tags = {}
 
 		for nd in data["nodes"]:
@@ -47,14 +45,14 @@ class NodeManager:
 
 	def on_add_node(self, sender, app_data):
 		mx, my = dpg.get_mouse_pos()
-		self.add_node(label=f"Field {self.node_idx}", pos=(int(mx), int(my)))
+		self.add_node(label=f"Field", pos=(int(mx), int(my)))
 	
 	def add_node(self, label, pos, name="필드", type="TEXT", value="", tag="", is_head=False):
-		self.node_idx += 1
+		#self.node_idx += 1
 
 		if not tag:
-			node_tag = f"NODE:{self.node_idx}"
-			
+			#node_tag = f"NODE:{self.node_idx}"
+			node_tag = f"node:{uuid.uuid4()}"
 		else:
 			node_tag = tag
 
@@ -74,9 +72,10 @@ class NodeManager:
 					#dpg.add_text("In")
 
 				#with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Static):
-					dpg.add_text("Field Name")
-					field_name_tag = dpg.add_input_text(before="Field Name:", width=150, user_data="Field Name", tag=f"{node_tag}FieldName")
-					dpg.set_value(field_name_tag, name)
+					#dpg.add_text("Field Name")
+					field_name_tag = add_input_text(label="Field Name:", contents=value, width=150)
+					#field_name_tag = dpg.add_input_text(before="Field Name:", width=150, user_data="Field Name", tag=f"{node_tag}FieldName")
+					#dpg.set_value(field_name_tag, name)
 					self.node_tags[node_tag][field_name_tag] = name
 
 				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Static):
@@ -87,10 +86,7 @@ class NodeManager:
 					self.node_tags[node_tag][field_type_tag] = type
 
 				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output, tag=f"{node_tag}out"):
-					#dpg.add_text("Value:")
-					#field_value_tag = dpg.add_input_text(label="", width=150, user_data="Field Name", tag=f"{node_tag}FieldValue")
-					field_value_tag = add_input_text(label="Value", contents=value, width=150)
-					#dpg.set_value(field_value_tag, value)
+					field_value_tag = add_input_text(label="Value:", contents=value, width=150)
 					self.node_tags[node_tag][field_value_tag] = value
 			else:
 				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output, tag=f"{node_tag}out"):

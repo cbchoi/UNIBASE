@@ -4,7 +4,6 @@ import uuid
 
 def add_input_text(label="", contents="", width=100):
 	com_id = str(uuid.uuid4())
-	print(type(com_id))
 	with dpg.group(horizontal=True):
 		def open_input_dialog():
 			import tkinter as tk
