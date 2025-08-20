@@ -13,6 +13,7 @@ class GenerateManager():
 		dpg.add_button(label="Generate", callback=self.on_generate)
 
 	def find_by_label(self, target_label):
+		print(self.node_editor_id)
 		node_editor_children = dpg.get_item_children(self.node_editor_id)
 		print(node_editor_children)
 		nodes = node_editor_children[1] 
