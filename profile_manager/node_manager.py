@@ -50,25 +50,16 @@ class NodeManager:
 		mx, my = dpg.get_mouse_pos()
 		self.add_node(label=f"Field", pos=(int(mx), int(my)))
 	
-	def add_node(self, label, pos, name="필드", type="TEXT", value="", tag="", is_head=False):
+	def add_node(self, label, pos, name="", type="TEXT", value="", tag="", is_head=False):
 		if not tag:
 			node_tag = f"node:{uuid.uuid4()}"
 		else:
 			node_tag = tag
 
-		with dpg.font_registry():
-			with dpg.font(r"C:\Windows\Fonts\malgun.ttf", 20) as font1:
-				# add the default font range
-				dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
-				dpg.add_font_range_hint(dpg.mvFontRangeHint_Korean)
-		
-			dpg.bind_font(font1)
-		
-
 		self.node_tags[node_tag] = {}
 		with dpg.node(label=label, tag=node_tag, parent=self.parent_window, pos=pos):
 			if not is_head:
-				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Input, tag=f"{node_tag}in"):
+				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Input, tag=f"IN:{node_tag}"):
 					field_name_tag = add_input_text(label="Field Name:", contents=value, width=150)
 					self.node_tags[node_tag][field_name_tag] = name
 
@@ -83,6 +74,6 @@ class NodeManager:
 					field_value_tag = add_input_text(label="Value:", contents=value, width=150)
 					self.node_tags[node_tag][field_value_tag] = value
 			else:
-				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output, tag=f"{node_tag}out"):
+				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Output, tag=f"OUT:{node_tag}"):
 					 dpg.add_text("Start")
 		return node_tag

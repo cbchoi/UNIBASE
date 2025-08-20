@@ -35,7 +35,7 @@ class BlockManager():
 		self.file_manager.bind_restore_signal(self.node_manager.on_restore, "node")
 		self.file_manager.bind_restore_signal(self.link_manager.on_restore, "link")
 
-		with dpg.window(label="Node Editor", width=900, height=600, no_scrollbar=False) as node_editor_id:		
+		with dpg.window(label="Node Editor", width=900, height=600, no_scrollbar=False, tag="Node Editor") as node_editor_id:		
 			with dpg.menu_bar():
 				self.file_manager.attach_menu()
 				self.node_manager.attach_menu()
@@ -45,7 +45,6 @@ class BlockManager():
 			with dpg.child_window(tag="work_area", width=-1, height=600, border=False):
 				with dpg.node_editor(tag="editor", callback=self.link_manager.link_callback, delink_callback=self.link_manager.delink_callback):
 					self.head_node = self.node_manager.add_node("Head", pos=(40, 100), is_head=True)
-					print(self.head_node)
 
 			with dpg.child_window(height=40, autosize_x=True, no_scrollbar=True, border=True):
 				with dpg.group(horizontal=True):
@@ -56,7 +55,7 @@ class BlockManager():
 			dpg.add_mouse_down_handler(callback=self.mouse_handler.get_mouse_down_handler())
 	
 		dpg.create_viewport(title=config.title, width=config.width, height=config.height)
-
+		dpg.set_primary_window("Node Editor", True)
 
 	def run(self):
 		#dpg.show_font_manager()

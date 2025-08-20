@@ -40,7 +40,7 @@ class FileManager():
 		
 		if self.menu_state == MenuState.OPEN:
 			self.load_graph(self.file_path)
-		elif self.menu_state == MenuState.New:
+		elif self.menu_state == MenuState.NEW:
 			self.new_graph(self.file_path)
 		else:
 			self.save_graph(self.file_path)
