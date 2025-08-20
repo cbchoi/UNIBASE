@@ -3,6 +3,7 @@ from node_manager import NodeManager
 from link_manager import LinkManager
 from mouse_handler import MouseHandler
 from file_manager import FileManager
+from generate_manager import GenerateManager
 
 class Configuration():
 	def __init__(self):
@@ -14,6 +15,7 @@ class Configuration():
 		self.node_manager = NodeManager(self.parent_window)
 		self.mouse_handler = MouseHandler(self.parent_window)
 		self.file_manager = FileManager(self.parent_window)
+		self.generate_manager = GenerateManager(self.parent_window)
 
 config = Configuration()
 

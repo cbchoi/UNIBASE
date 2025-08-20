@@ -24,6 +24,7 @@ class BlockManager():
 		self.link_manager = config.link_manager
 		self.mouse_handler = config.mouse_handler
 		self.file_manager = config.file_manager
+		self.generate_manager = config.generate_manager
 
 		self.mouse_handler.bind_link_signal(self.link_manager.on_link_deleted, "link")
 		self.mouse_handler.bind_node_signal(self.node_manager.on_node_deleted, "node")
@@ -34,14 +35,17 @@ class BlockManager():
 		self.file_manager.bind_restore_signal(self.node_manager.on_restore, "node")
 		self.file_manager.bind_restore_signal(self.link_manager.on_restore, "link")
 
-		with dpg.window(label="Node Editor", width=900, height=600, no_scrollbar=False):		
+		with dpg.window(label="Node Editor", width=900, height=600, no_scrollbar=False) as node_editor_id:		
 			with dpg.menu_bar():
 				self.file_manager.attach_menu()
-				dpg.add_button(label="Add Node (+)", callback=self.node_manager.on_add_node)
+				self.node_manager.attach_menu()
+				self.generate_manager.set_node_editor_id(node_editor_id)
+				self.generate_manager.attach_menu()
 			
 			with dpg.child_window(tag="work_area", width=-1, height=600, border=False):
 				with dpg.node_editor(tag="editor", callback=self.link_manager.link_callback, delink_callback=self.link_manager.delink_callback):
 					self.head_node = self.node_manager.add_node("Head", pos=(40, 100), is_head=True)
+					print(self.head_node)
 
 			with dpg.child_window(height=40, autosize_x=True, no_scrollbar=True, border=True):
 				with dpg.group(horizontal=True):

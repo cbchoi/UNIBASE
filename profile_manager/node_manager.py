@@ -7,6 +7,9 @@ class NodeManager:
 		self.parent_window = parent
 		self.node_tags = {}
 
+	def attach_menu(self):
+		dpg.add_button(label="Add Node (+)", callback=self.on_add_node)
+
 	def on_restore(self, data):
 		self.node_tags = {}
 
@@ -48,10 +51,7 @@ class NodeManager:
 		self.add_node(label=f"Field", pos=(int(mx), int(my)))
 	
 	def add_node(self, label, pos, name="필드", type="TEXT", value="", tag="", is_head=False):
-		#self.node_idx += 1
-
 		if not tag:
-			#node_tag = f"NODE:{self.node_idx}"
 			node_tag = f"node:{uuid.uuid4()}"
 		else:
 			node_tag = tag
@@ -69,13 +69,7 @@ class NodeManager:
 		with dpg.node(label=label, tag=node_tag, parent=self.parent_window, pos=pos):
 			if not is_head:
 				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Input, tag=f"{node_tag}in"):
-					#dpg.add_text("In")
-
-				#with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Static):
-					#dpg.add_text("Field Name")
 					field_name_tag = add_input_text(label="Field Name:", contents=value, width=150)
-					#field_name_tag = dpg.add_input_text(before="Field Name:", width=150, user_data="Field Name", tag=f"{node_tag}FieldName")
-					#dpg.set_value(field_name_tag, name)
 					self.node_tags[node_tag][field_name_tag] = name
 
 				with dpg.node_attribute(attribute_type=dpg.mvNode_Attr_Static):
